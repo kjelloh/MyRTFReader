@@ -48,7 +48,7 @@ SYM rgsymRtf[] = {
     "b",        1,      fFalse,     kwdProp,    ipropBold,
     "ul",       1,      fFalse,     kwdProp,    ipropUnderline,
     "i",        1,      fFalse,     kwdProp,    ipropItalic,
-    "li",       0,      fFalse,     dProp,      ipropPgnFormat,
+    "li",       0,      fFalse,     kwdProp,      ipropPgnFormat,
     "pgnucltr", pgULtr, fTrue,      kwdProp,    ipropPgnFormat,
     "pgnlcltr", pgLLtr, fTrue,      kwdProp,    ipropPgnFormat,
     "qc",       justC,  fTrue,      kwdProp,    ipropJust,
