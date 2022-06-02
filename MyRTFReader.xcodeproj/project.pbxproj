@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		62D792E82848F01700506AAD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 62D792E72848F01700506AAD /* main.c */; };
+		62D792F22848FDE300506AAD /* rtfreadr.c in Sources */ = {isa = PBXBuildFile; fileRef = 62D792F02848F25800506AAD /* rtfreadr.c */; };
+		62D792F32848FDE300506AAD /* rtfactn.c in Sources */ = {isa = PBXBuildFile; fileRef = 62D792F12848F2F900506AAD /* rtfactn.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		62D792E42848F01700506AAD /* MyRTFReader */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MyRTFReader; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D792E72848F01700506AAD /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		62D792EE2848F04D00506AAD /* rtfdecl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rtfdecl.h; sourceTree = "<group>"; };
+		62D792EF2848F11A00506AAD /* rtftype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rtftype.h; sourceTree = "<group>"; };
+		62D792F02848F25800506AAD /* rtfreadr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rtfreadr.c; sourceTree = "<group>"; };
+		62D792F12848F2F900506AAD /* rtfactn.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rtfactn.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				62D792E72848F01700506AAD /* main.c */,
+				62D792EE2848F04D00506AAD /* rtfdecl.h */,
+				62D792EF2848F11A00506AAD /* rtftype.h */,
+				62D792F02848F25800506AAD /* rtfreadr.c */,
+				62D792F12848F2F900506AAD /* rtfactn.c */,
 			);
 			path = MyRTFReader;
 			sourceTree = "<group>";
@@ -119,7 +129,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62D792F32848FDE300506AAD /* rtfactn.c in Sources */,
 				62D792E82848F01700506AAD /* main.c in Sources */,
+				62D792F22848FDE300506AAD /* rtfreadr.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
