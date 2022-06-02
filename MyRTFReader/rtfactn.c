@@ -44,7 +44,7 @@ PROP rgprop [ipropMax] = {
 
 // Keyword descriptions
 SYM rgsymRtf[] = {
-//  keyword     dflt    fPassDflt   kwd         idx
+    //  keyword     dflt    fPassDflt   kwd         idx
     "b",        1,      fFalse,     kwdProp,    ipropBold,
     "ul",       1,      fFalse,     kwdProp,    ipropUnderline,
     "i",        1,      fFalse,     kwdProp,    ipropItalic,
@@ -109,7 +109,7 @@ SYM rgsymRtf[] = {
     "{",        0,      fFalse,     kwdChar,    '{',
     "}",        0,      fFalse,     kwdChar,    '}',
     "\\",       0,      fFalse,     kwdChar,    '\\'
-    };
+};
 int isymMax = sizeof(rgsymRtf) / sizeof(SYM);
 
 //
@@ -123,42 +123,42 @@ int
 ecApplyPropChange(IPROP iprop, int val)
 {
     char *pb;
-
+    
     if (rds == rdsSkip)                 // If we're skipping text,
         return ecOK;                    // don't do anything.
-
+    
     switch (rgprop[iprop].prop)
     {
-    case propDop:
-        pb = (char *)&dop;
-        break;
-    case propSep:
-        pb = (char *)&sep;
-        break;
-    case propPap:
-        pb = (char *)&pap;
-        break;
-    case propChp:
-        pb = (char *)&chp;
-        break;
-    default:
-        if (rgprop[iprop].actn != actnSpec)
-            return ecBadTable;
-        break;
+        case propDop:
+            pb = (char *)&dop;
+            break;
+        case propSep:
+            pb = (char *)&sep;
+            break;
+        case propPap:
+            pb = (char *)&pap;
+            break;
+        case propChp:
+            pb = (char *)&chp;
+            break;
+        default:
+            if (rgprop[iprop].actn != actnSpec)
+                return ecBadTable;
+            break;
     }
     switch (rgprop[iprop].actn)
     {
-    case actnByte:
-        pb[rgprop[iprop].offset] = (unsigned char) val;
-        break;
-    case actnWord:
-        (*(int *) (pb+rgprop[iprop].offset)) = val;
-        break;
-    case actnSpec:
-        return ecParseSpecialProperty(iprop, val);
-        break;
-    default:
-        return ecBadTable;
+        case actnByte:
+            pb[rgprop[iprop].offset] = (unsigned char) val;
+            break;
+        case actnWord:
+            (*(int *) (pb+rgprop[iprop].offset)) = val;
+            break;
+        case actnSpec:
+            return ecParseSpecialProperty(iprop, val);
+            break;
+        default:
+            return ecBadTable;
     }
     return ecOK;
 }
@@ -174,17 +174,17 @@ ecParseSpecialProperty(IPROP iprop, int val)
 {
     switch (iprop)
     {
-    case ipropPard:
-        memset(&pap, 0, sizeof(pap));
-        return ecOK;
-    case ipropPlain:
-        memset(&chp, 0, sizeof(chp));
-        return ecOK;
-    case ipropSectd:
-        memset(&sep, 0, sizeof(sep));
-        return ecOK;
-    default:
-        return ecBadTable;
+        case ipropPard:
+            memset(&pap, 0, sizeof(pap));
+            return ecOK;
+        case ipropPlain:
+            memset(&chp, 0, sizeof(chp));
+            return ecOK;
+        case ipropSectd:
+            memset(&sep, 0, sizeof(sep));
+            return ecOK;
+        default:
+            return ecBadTable;
     }
     return ecBadTable;
 }
@@ -206,9 +206,9 @@ int
 ecTranslateKeyword(char *szKeyword, int param, bool fParam)
 {
     int isym;
-
+    
     // search for szKeyword in rgsymRtf
-
+    
     for (isym = 0; isym < isymMax; isym++)
         if (strcmp(szKeyword, rgsymRtf[isym].szKeyword) == 0)
             break;
@@ -216,28 +216,28 @@ ecTranslateKeyword(char *szKeyword, int param, bool fParam)
     {
         if (fSkipDestIfUnk)         // if this is a new destination
             rds = rdsSkip;          // skip the destination
-                                    // else just discard it
+        // else just discard it
         fSkipDestIfUnk = fFalse;
         return ecOK;
     }
-
+    
     // found it!  use kwd and idx to determine what to do with it.
-
+    
     fSkipDestIfUnk = fFalse;
     switch (rgsymRtf[isym].kwd)
     {
-    case kwdProp:
-        if (rgsymRtf[isym].fPassDflt || !fParam)
-            param = rgsymRtf[isym].dflt;
-        return ecApplyPropChange(rgsymRtf[isym].idx, param);
-    case kwdChar:
-        return ecParseChar(rgsymRtf[isym].idx);
-    case kwdDest:
-        return ecChangeDest(rgsymRtf[isym].idx);
-    case kwdSpec:
-        return ecParseSpecialKeyword(rgsymRtf[isym].idx);
-    default:
-        return ecBadTable;
+        case kwdProp:
+            if (rgsymRtf[isym].fPassDflt || !fParam)
+                param = rgsymRtf[isym].dflt;
+            return ecApplyPropChange(rgsymRtf[isym].idx, param);
+        case kwdChar:
+            return ecParseChar(rgsymRtf[isym].idx);
+        case kwdDest:
+            return ecChangeDest(rgsymRtf[isym].idx);
+        case kwdSpec:
+            return ecParseSpecialKeyword(rgsymRtf[isym].idx);
+        default:
+            return ecBadTable;
     }
     return ecBadTable;
 }
@@ -254,12 +254,12 @@ ecChangeDest(IDEST idest)
 {
     if (rds == rdsSkip)             // if we're skipping text,
         return ecOK;                // don't do anything
-
+    
     switch (idest)
     {
-    default:
-        rds = rdsSkip;              // when in doubt, skip it...
-        break;
+        default:
+            rds = rdsSkip;              // when in doubt, skip it...
+            break;
     }
     return ecOK;
 }
@@ -290,18 +290,18 @@ ecParseSpecialKeyword(IPFN ipfn)
         return ecOK;                                // the \bin keyword, ignore it.
     switch (ipfn)
     {
-    case ipfnBin:
-        ris = risBin;
-        cbBin = lParam;
-        break;
-    case ipfnSkipDest:
-        fSkipDestIfUnk = fTrue;
-        break;
-    case ipfnHex:
- ris = risHex;
- break;
-    default:
-        return ecBadTable;
+        case ipfnBin:
+            ris = risBin;
+            cbBin = lParam;
+            break;
+        case ipfnSkipDest:
+            fSkipDestIfUnk = fTrue;
+            break;
+        case ipfnHex:
+            ris = risHex;
+            break;
+        default:
+            return ecBadTable;
     }
     return ecOK;
 }

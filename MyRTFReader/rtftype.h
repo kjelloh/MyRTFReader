@@ -71,12 +71,12 @@ typedef struct save             // property save structure
 
 // What types of properties are there?
 typedef enum {ipropBold, ipropItalic, ipropUnderline, ipropLeftInd,
-              ipropRightInd, ipropFirstInd, ipropCols, ipropPgnX,
-              ipropPgnY, ipropXaPage, ipropYaPage, ipropXaLeft,
-              ipropXaRight, ipropYaTop, ipropYaBottom, ipropPgnStart,
-              ipropSbk, ipropPgnFormat, ipropFacingp, ipropLandscape,
-              ipropJust, ipropPard, ipropPlain, ipropSectd,
-              ipropMax } IPROP;
+    ipropRightInd, ipropFirstInd, ipropCols, ipropPgnX,
+    ipropPgnY, ipropXaPage, ipropYaPage, ipropXaLeft,
+    ipropXaRight, ipropYaTop, ipropYaBottom, ipropPgnStart,
+    ipropSbk, ipropPgnFormat, ipropFacingp, ipropLandscape,
+    ipropJust, ipropPard, ipropPlain, ipropSectd,
+    ipropMax } IPROP;
 
 typedef enum {actnSpec, actnByte, actnWord} ACTN;
 typedef enum {propChp, propPap, propSep, propDop} PROPTYPE;
@@ -99,8 +99,8 @@ typedef struct symbol
     bool fPassDflt;         // true to use default value from this table
     KWD  kwd;               // base action to take
     int  idx;               // index into property table if kwd == kwdProp
-                            // index into destination table if kwd == kwdDest
-                            // character to print if kwd == kwdChar
+    // index into destination table if kwd == kwdDest
+    // character to print if kwd == kwdChar
 } SYM;
 
 

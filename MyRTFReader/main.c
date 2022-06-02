@@ -5,7 +5,7 @@
 //  Created by Kjell-Olov Högdal on 2022-06-02.
 //
 
-//
+//  This file is actually the original rtfreadr.c
 //  rtfreadr.c
 //  MyRTFReader
 //
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     }
     FILE *fp;
     int ec;
-
+    
     fp = fpIn = fopen("resources/test.rtf", "r");
     if (!fp)
     {
@@ -103,60 +103,60 @@ ecRtfParse(FILE *fp)
         {
             switch (ch)
             {
-            case '{':
-                if ((ec = ecPushRtfState()) != ecOK)
-                    return ec;
-                break;
-            case '}':
-                if ((ec = ecPopRtfState()) != ecOK)
-                    return ec;
-                break;
-            case '\\':
-                if ((ec = ecParseRtfKeyword(fp)) != ecOK)
-                    return ec;
-                break;
-            case 0x0d:
-            case 0x0a:          // cr and lf are noise characters...
-                break;
-            default:
-                if (ris == risNorm)
-                {
-                    if ((ec = ecParseChar(ch)) != ecOK)
+                case '{':
+                    if ((ec = ecPushRtfState()) != ecOK)
                         return ec;
-                }
-                else
-                {               // parsing hex data
-                    if (ris != risHex)
-                        return ecAssertion;
-                    b = b << 4;
-                    if (isdigit(ch))
-                        b += (char) ch - '0';
-                    else
+                    break;
+                case '}':
+                    if ((ec = ecPopRtfState()) != ecOK)
+                        return ec;
+                    break;
+                case '\\':
+                    if ((ec = ecParseRtfKeyword(fp)) != ecOK)
+                        return ec;
+                    break;
+                case 0x0d:
+                case 0x0a:          // cr and lf are noise characters...
+                    break;
+                default:
+                    if (ris == risNorm)
                     {
-                        if (islower(ch))
-                        {
-                            if (ch < 'a' || ch > 'f')
-                                return ecInvalidHex;
-                            b += (char) ch - 'a';
-                        }
+                        if ((ec = ecParseChar(ch)) != ecOK)
+                            return ec;
+                    }
+                    else
+                    {               // parsing hex data
+                        if (ris != risHex)
+                            return ecAssertion;
+                        b = b << 4;
+                        if (isdigit(ch))
+                            b += (char) ch - '0';
                         else
                         {
-                            if (ch < 'A' || ch > 'F')
-                                return ecInvalidHex;
-                            b += (char) ch - 'A';
+                            if (islower(ch))
+                            {
+                                if (ch < 'a' || ch > 'f')
+                                    return ecInvalidHex;
+                                b += (char) ch - 'a';
+                            }
+                            else
+                            {
+                                if (ch < 'A' || ch > 'F')
+                                    return ecInvalidHex;
+                                b += (char) ch - 'A';
+                            }
                         }
-                    }
-                    cNibble--;
-                    if (!cNibble)
-                    {
-                        if ((ec = ecParseChar(b)) != ecOK)
-                            return ec;
-                        cNibble = 2;
-                        b = 0;
-ris = risNorm;
-                    }
-                }                   // end else (ris != risNorm)
-                break;
+                        cNibble--;
+                        if (!cNibble)
+                        {
+                            if ((ec = ecParseChar(b)) != ecOK)
+                                return ec;
+                            cNibble = 2;
+                            b = 0;
+                            ris = risNorm;
+                        }
+                    }                   // end else (ris != risNorm)
+                    break;
             }       // switch
         }           // else (ris != risBin)
     }               // while
@@ -179,7 +179,7 @@ ecPushRtfState(void)
     SAVE *psaveNew = malloc(sizeof(SAVE));
     if (!psaveNew)
         return ecStackOverflow;
-
+    
     psaveNew -> pNext = psave;
     psaveNew -> chp = chp;
     psaveNew -> pap = pap;
@@ -206,10 +206,10 @@ ecPopRtfState(void)
 {
     SAVE *psaveOld;
     int ec;
-
+    
     if (!psave)
         return ecStackUnderflow;
-
+    
     if (rds != psave->rds)
     {
         if ((ec = ecEndGroupAction(rds)) != ecOK)
@@ -221,7 +221,7 @@ ecPopRtfState(void)
     dop = psave->dop;
     rds = psave->rds;
     ris = psave->ris;
-
+    
     psaveOld = psave;
     psave = psave->pNext;
     cGroup--;
@@ -247,7 +247,7 @@ ecParseRtfKeyword(FILE *fp)
     char *pch;
     char szKeyword[30];
     char szParameter[20];
-
+    
     szKeyword[0] = '\0';
     szParameter[0] = '\0';
     if ((ch = getc(fp)) == EOF)
@@ -298,15 +298,15 @@ ecParseChar(int ch)
         ris = risNorm;
     switch (rds)
     {
-    case rdsSkip:
-        // Toss this character.
-        return ecOK;
-    case rdsNorm:
-        // Output a character. Properties are valid at this point.
-        return ecPrintChar(ch);
-    default:
-    // handle other destinations....
-        return ecOK;
+        case rdsSkip:
+            // Toss this character.
+            return ecOK;
+        case rdsNorm:
+            // Output a character. Properties are valid at this point.
+            return ecPrintChar(ch);
+        default:
+            // handle other destinations....
+            return ecOK;
     }
 }
 //
